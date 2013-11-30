@@ -1,5 +1,7 @@
 import subprocess
+import os
 import setuptools
+from .exceptions import ParsingError
 
 
 class GitParser(object):
@@ -51,16 +53,31 @@ class GitParser(object):
             for line in out.readlines()
         ]
 
+    def _get_commit_date(self, commit):
+        """Get commit date"""
+        return self._git('log', '--pretty=format:%cd', '--date=rfc', commit)\
+            .readlines()[0]
+
     def _create_change_logs(self, pairs):
         """Create change logs"""
         last = None
         for commit, version in pairs:
-            yield version, self._get_commit_range_changes(commit, last)
+            yield (
+                version, self._get_commit_range_changes(commit, last),
+                self._get_commit_date(commit),
+            )
             last = commit
+
+    def _set_path(self, path):
+        """Set path"""
+        git_path = os.path.join(path, '.git')
+        if not os.path.exists(git_path):
+            raise ParsingError('You should run pytoppa in git root')
+        self._path = path
 
     def parse(self, path):
         """Create changelog from git"""
-        self._path = path
+        self._set_path(path)
         self._patch_setuptools()
         changes = self._get_revisions_with_changes()
         version_pairs = self._get_commits_with_versions(changes)

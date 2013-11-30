@@ -1,0 +1,8 @@
+section: python
+dependencies:
+  - python-yaml
+releases:
+  - saucy
+  - precise
+  - quantal
+  - raring

@@ -1,3 +1,4 @@
+section: net
 dependencies:
   - python-yaml
 releases:

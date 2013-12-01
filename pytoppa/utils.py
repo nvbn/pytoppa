@@ -22,7 +22,7 @@ def build(path, key, context):
     subprocess.call([
         'debuild', '-S', '-sa', '-rfakeroot',
         '-k"{}"'.format(key),
-    ], cwd=root)
+    ], cwd=path)
     return os.path.join(root, '{}_{}-0~{}_source.changes'.format(
         context['name'], context['version'], context['release'],
     ))

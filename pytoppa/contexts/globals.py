@@ -20,7 +20,7 @@ class GlobalContext(BaseContext):
 
     def _create_changelog(self):
         """Create changelog"""
-        for version, logs, date in GitParser().parse(self._path):
+        for version, logs, date in GitParser().parse(self._path)[::-1]:
             yield {
                 'version': version,
                 'logs': logs,

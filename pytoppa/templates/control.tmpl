@@ -4,9 +4,9 @@ Priority: optional
 Maintainer: {{ author }} <{{ author_email }}>
 Build-Depends: cdbs (>= 0.4.49), debhelper (>= 7), python (>= 2.4), python-support, python-setuptools{% if dependencies %},{% endif %} {% for dep in dependencies %}{{ dep }}{% if not loop.last %}, {% endif %}{% endfor %}
 Standards-Version: 0.1
-Homepage: https://github.com/nvbn/series_list/
+Homepage: {{ url }}
 
-Package: series-list
+Package: {{ name }}
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, python-support, python-setuptools{% if dependencies %},{% endif %} {% for dep in dependencies %}{{ dep }}{% if not loop.last %}, {% endif %}{% endfor %}
-Description: Download series from eztv with subtitles from addic7ed
+Description: {{ description }}

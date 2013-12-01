@@ -1,7 +1,6 @@
-{% for change in changelog %}
-{{ name }} ({{ change.version }}-0~{{ release }}) {{ release }}; urgency=low
-{% for entry in change.logs %}
-  * {{ entry }}
+{% for change in changelog %}{{ name }} ({{ change.version }}-0~{{ release }}) {{ release }}; urgency=low
+
+{% for entry in change.logs %}  * {{ entry }}
 {% endfor %}
  -- {{ author }} <{{ author_email }}>  {{ change.date }}
 {% endfor %}

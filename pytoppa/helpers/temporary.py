@@ -18,6 +18,7 @@ class TemporaryDirectory(object):
         """Create temporary directory"""
         os.makedirs(self._path)
         shutil.copytree(self._project_path, self.destination)
+        return self
 
     def __exit__(self, *args, **kwargs):
         """Clean temporary directory"""

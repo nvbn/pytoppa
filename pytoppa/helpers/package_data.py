@@ -1,4 +1,5 @@
 import os
+import shutil
 from jinja2 import Environment, PackageLoader
 
 
@@ -37,3 +38,7 @@ class PackageData(object):
     def __enter__(self):
         """Create debian package data"""
         self._create_dirs()
+
+    def __exit__(self, *args, **kwargs):
+        """Clean package data"""
+        shutil.rmtree(self._path)

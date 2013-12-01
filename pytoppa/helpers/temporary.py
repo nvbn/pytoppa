@@ -18,11 +18,21 @@ class TemporaryDirectory(BaseHelper):
         )
         self.destination = os.path.join(self._path, context['name'])
 
+    def _prepare_data_files(self, data_files):
+        """Replace share with /usr/share/"""
+        for destination, files in data_files:
+            if destination.find('share/') == 0:
+                yield '/usr/{}'.format(destination), files
+            else:
+                yield destination, files
+
     def _create_setup_py(self):
         """Create setup.py"""
         template = self._env.get_template('setup.py.tmpl')
         context = copy(self._context['setup_py_kwargs'])
         context['install_requires'] = []
+        context['data_files'] =\
+            list(self._prepare_data_files(context.get('data_files', [])))
         path = os.path.join(self.destination, 'setup.py')
         with open(path, 'w') as setup_py:
             setup_py.write(template.render(data=json.dumps(context)))

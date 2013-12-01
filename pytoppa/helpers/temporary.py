@@ -1,12 +1,16 @@
+from copy import copy
 import uuid
 import os
 import shutil
+import json
+from .base import BaseHelper
 
 
-class TemporaryDirectory(object):
+class TemporaryDirectory(BaseHelper):
     """With temporary directory"""
 
     def __init__(self, path, context):
+        super(TemporaryDirectory, self).__init__()
         self._context = context
         self._project_path = path
         self._path = os.path.join(
@@ -14,10 +18,20 @@ class TemporaryDirectory(object):
         )
         self.destination = os.path.join(self._path, context['name'])
 
+    def _create_setup_py(self):
+        """Create setup.py"""
+        template = self._env.get_template('setup.py.tmpl')
+        context = copy(self._context['setup_py_kwargs'])
+        context['install_requires'] = []
+        path = os.path.join(self.destination, 'setup.py')
+        with open(path, 'w') as setup_py:
+            setup_py.write(template.render(data=json.dumps(context)))
+
     def __enter__(self):
         """Create temporary directory"""
         os.makedirs(self._path)
         shutil.copytree(self._project_path, self.destination)
+        self._create_setup_py()
         return self
 
     def __exit__(self, *args, **kwargs):

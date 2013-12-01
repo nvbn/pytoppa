@@ -15,7 +15,8 @@ class GlobalContext(BaseContext):
     def _fill(self):
         """Gill context"""
         self.dict['changelog'] = list(self._create_changelog())
-        self.dict.update(self._get_package_data())
+        self.dict['setup_py_kwargs'] = self._get_package_data()
+        self.dict.update(self.dict['setup_py_kwargs'])
         self.dict.update(self._get_config_data())
 
     def _create_changelog(self):

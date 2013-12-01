@@ -1,9 +1,9 @@
 import os
 import shutil
-from jinja2 import Environment, PackageLoader
+from .base import BaseHelper
 
 
-class PackageData(object):
+class PackageData(BaseHelper):
     """With debian package data"""
     files = [
         'source/format',
@@ -17,10 +17,10 @@ class PackageData(object):
     ]
 
     def __init__(self, path, context):
+        super(PackageData, self).__init__()
         self._path = path
         self._context = context
         self.destination = os.path.join(self._path, 'debian')
-        self._env = Environment(loader=PackageLoader('pytoppa'))
 
     def _create_dirs(self):
         """Create all dirs"""

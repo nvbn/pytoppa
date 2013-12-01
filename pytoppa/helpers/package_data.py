@@ -25,7 +25,7 @@ class PackageData(object):
     def _create_dirs(self):
         """Create all dirs"""
         os.makedirs(self.destination)
-        self._sources_dir = os.path.join(self.destination, 'sources')
+        self._sources_dir = os.path.join(self.destination, 'source')
         os.makedirs(self._sources_dir)
 
     def _render_file(self, path):
@@ -33,11 +33,13 @@ class PackageData(object):
         template = self._env.get_template(path)
         full_path = os.path.join(self.destination, path)
         with open(full_path, 'w') as out:
-            out.write(template.render(**self._context))
+            out.write(template.render(**self._context.dict))
 
     def __enter__(self):
         """Create debian package data"""
         self._create_dirs()
+        for name in self.files:
+            self._render_file(name)
 
     def __exit__(self, *args, **kwargs):
         """Clean package data"""

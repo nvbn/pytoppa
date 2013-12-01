@@ -9,6 +9,13 @@ Python package to ppa
 
 Upload python packages to your ppa with easy yml config.
 
+Features
+---------
+
+- simple configuration file in yaml
+- history from git
+- adding essential dependencies automatically
+
 pytoppa.yml config format
 -------------------------
 

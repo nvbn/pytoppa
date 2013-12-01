@@ -10,10 +10,10 @@ def _get_root(path):
 def create_tarball(path, context):
     """Create tarball"""
     root = _get_root(path)
-    destination = os.path.join(
-        root, '{}_{}.orig.tar.xz'.format(context['name'], context['version']),
+    destination = '{}_{}.orig.tar.xz'.format(
+        context['name'], context['version'],
     )
-    subprocess.call(['tar', 'cJvf', destination, path], cwd=root)
+    subprocess.call(['tar', 'cJvf', destination, context['name']], cwd=root)
 
 
 def build(path, key, context):

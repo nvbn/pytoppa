@@ -1,6 +1,12 @@
 Python package to ppa
 =====================
 
+.. image:: https://travis-ci.org/nvbn/pytoppa.png?branch=develop 
+    :target: https://travis-ci.org/nvbn/pytoppa
+
+.. image:: https://coviolations.io/projects/nvbn/pytoppa/badge/? 
+    :target: https://coviolations.io/#/projects/nvbn/pytoppa/
+
 Upload python packages to your ppa with easy yml config.
 
 pytoppa.yml config format

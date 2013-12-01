@@ -1,5 +1,6 @@
 dependencies:
   - python-yaml
+  - python-jinja2
 releases:
   - saucy
   - precise

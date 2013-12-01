@@ -4,6 +4,7 @@ python:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq sloccount
+  - pip install coverage coviolations_app
 install:
   - pip install -U .
 script:

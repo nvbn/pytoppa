@@ -22,6 +22,9 @@ setup(
     install_requires=[
         'PyYAML',
         'Jinja2',
+        'nose',
+        'mock',
+        'sure',
     ],
     entry_points={
         'gui_scripts': [

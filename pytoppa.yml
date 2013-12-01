@@ -1,6 +1,9 @@
 dependencies:
   - python-yaml
   - python-jinja2
+  - dh-make
+  - devscripts
+  - cdbs
 releases:
   - saucy
   - precise

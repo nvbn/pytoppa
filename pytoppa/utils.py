@@ -20,8 +20,7 @@ def build(path, key, context):
     """Build package data"""
     root = _get_root(path)
     subprocess.call([
-        'debuild', '-S', '-sa', '-rfakeroot',
-        '-k"{}"'.format(key),
+        'debuild', '-S', '-sa', '-rfakeroot', '-k{}'.format(key),
     ], cwd=path)
     return os.path.join(root, '{}_{}-0~{}_source.changes'.format(
         context['name'], context['version'], context['release'],

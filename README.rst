@@ -23,7 +23,8 @@ In general it looks like:
       - one-of-releases
 
 Examples:
- - `pytoppa <https://github.com/nvbn/pytoppa/blob/develop/pytoppa.yml>`_
+
+- `pytoppa <https://github.com/nvbn/pytoppa/blob/develop/pytoppa.yml>`_
 
 Usage
 -----

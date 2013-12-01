@@ -1,4 +1,5 @@
 from copy import copy
+from pprint import pformat
 import uuid
 import os
 import shutil
@@ -35,7 +36,7 @@ class TemporaryDirectory(BaseHelper):
             list(self._prepare_data_files(context.get('data_files', [])))
         path = os.path.join(self.destination, 'setup.py')
         with open(path, 'w') as setup_py:
-            setup_py.write(template.render(data=json.dumps(context)))
+            setup_py.write(template.render(data=pformat(context)))
 
     def __enter__(self):
         """Create temporary directory"""

@@ -22,7 +22,7 @@ setup(
     ],
     entry_points={
         'gui_scripts': [
-            'pytoppa=pytoppa.app:main'
+            'pytoppa=pytoppa.app:main',
         ]
     },
 )

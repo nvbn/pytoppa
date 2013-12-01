@@ -30,7 +30,7 @@ class PackageData(object):
 
     def _render_file(self, path):
         """Render file"""
-        template = self._env.get_template(path)
+        template = self._env.get_template('{}.tmpl'.format(path))
         full_path = os.path.join(self.destination, path)
         with open(full_path, 'w') as out:
             out.write(template.render(**self._context.dict))

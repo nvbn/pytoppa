@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pytoppa',
-    version='1.0',
+    version='2.0',
     description="Easy to use publisher of python packages to ppa",
     long_description="""\
 """,
@@ -20,7 +20,9 @@ setup(
         'PyYAML',
         'Jinja2',
     ],
-    entry_points="""
-    # -*- Entry points: -*-
-    """,
+    entry_points={
+        'gui_scripts': [
+            'pytoppa=pytoppa.app:main'
+        ]
+    },
 )

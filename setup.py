@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pytoppa',
-    version='4.0',
+    version='5.0',
     description="Easy to use publisher of python packages to ppa",
     long_description="""\
 """,

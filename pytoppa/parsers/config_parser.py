@@ -8,8 +8,8 @@ class ConfigParser(object):
 
     def _get_config_path(self, path):
         """Get config path"""
-        with_yml = os.path.join(path, 'pytoppa.yml')
-        with_yaml = os.path.join(path, 'pytoppa.yaml')
+        with_yml = os.path.join(path, '.pytoppa.yml')
+        with_yaml = os.path.join(path, '.pytoppa.yaml')
         if os.path.exists(with_yml):
             return with_yml
         elif os.path.exists(with_yaml):

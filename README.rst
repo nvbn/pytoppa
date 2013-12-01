@@ -16,7 +16,7 @@ Features
 - history from git
 - adding essential dependencies automatically
 
-pytoppa.yml config format
+.pytoppa.yml config format
 -------------------------
 
 In general it looks like:
@@ -31,7 +31,7 @@ In general it looks like:
 
 Examples:
 
-- `pytoppa <https://github.com/nvbn/pytoppa/blob/develop/pytoppa.yml>`_
+- `pytoppa <https://github.com/nvbn/pytoppa/blob/develop/.pytoppa.yml>`_
 
 Usage
 -----

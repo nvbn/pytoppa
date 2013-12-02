@@ -14,14 +14,17 @@ class GlobalContext(BaseContext):
 
     def _fill(self):
         """Gill context"""
-        self.dict['changelog'] = list(self._create_changelog())
         self.dict['setup_py_kwargs'] = self._get_package_data()
         self.dict.update(self.dict['setup_py_kwargs'])
         self.dict.update(self._get_config_data())
 
-    def _create_changelog(self):
+    def update_changelog(self, path):
+        """Update changelog"""
+        self.dict['changelog'] = list(self._create_changelog(path))
+
+    def _create_changelog(self, path):
         """Create changelog"""
-        for version, logs, date in GitParser().parse(self._path)[::-1]:
+        for version, logs, date in GitParser().parse(path)[::-1]:
             yield {
                 'version': version,
                 'logs': logs,

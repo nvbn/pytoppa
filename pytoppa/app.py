@@ -21,6 +21,7 @@ def main():
     context = GlobalContext(path)
     with TemporaryDirectory(path, context) as temp:
         create_tarball(temp.destination, context)
+        context.update_changelog(temp.destination)
         for release in context['releases']:
             release_context = ReleaseContext(context, release)
             with PackageData(temp.destination, release_context):

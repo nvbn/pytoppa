@@ -74,7 +74,7 @@ class GitParser(object):
             '{}...{}'.format(start, end) if start else end,
         )
         return [
-            line.replace('\n', '').replace('\r', '')
+            line.replace('\n', '').replace('\r', '').decode('utf8')
             for line in out.readlines()
         ]
 

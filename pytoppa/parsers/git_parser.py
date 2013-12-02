@@ -37,7 +37,12 @@ class GitParser(object):
         """Get commits with versions"""
         versions = []
         for commit in commits:
-            exec self._get_setup_py_content(commit)
+            try:
+                exec self._get_setup_py_content(commit)
+            except Exception as e:
+                print e
+                continue
+
             if not self._data['version'] in versions:
                 versions.append(self._data['version'])
                 yield commit, self._data['version']

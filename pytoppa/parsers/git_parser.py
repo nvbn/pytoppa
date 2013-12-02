@@ -68,7 +68,11 @@ class GitParser(object):
             with Revision(commit, self._path) as revision:
                 sys.path.insert(0, revision.destination)
                 with ImportScope():
-                    __import__('setup')
+                    try:
+                        __import__('setup')
+                    except Exception as e:
+                        print e
+                        continue
             if not self._data['version'] in versions:
                 versions.append(self._data['version'])
                 yield commit, self._data['version']

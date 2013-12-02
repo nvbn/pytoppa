@@ -1,6 +1,8 @@
+from distutils import core
 import sys
 import os
 import setuptools
+from ..helpers.import_scope import ImportScope
 from .exceptions import ParsingError
 
 
@@ -10,6 +12,7 @@ class SetupParser(object):
     def _patch_setuptools(self):
         """Patch setuptools"""
         setuptools.setup = self._store_args
+        core.setup = self._store_args
 
     def _store_args(self, *args, **kwargs):
         """Store arguments to setup"""
@@ -26,6 +29,6 @@ class SetupParser(object):
         self._check_exists(path, file_name)
         self._patch_setuptools()
         sys.path.insert(0, path)
-        setup = __import__(file_name[:-3])
-        reload(setup)
+        with ImportScope():
+            __import__(file_name[:-3])
         return self._data

@@ -1,9 +1,11 @@
 from datetime import datetime
+from distutils import core
 import subprocess
 import os
 import setuptools
 import sys
 from ..helpers.revision import Revision
+from ..helpers.import_scope import ImportScope
 from .exceptions import ParsingError
 
 
@@ -22,6 +24,7 @@ class GitParser(object):
     def _patch_setuptools(self):
         """Patch setuptools"""
         setuptools.setup = self._store_args
+        core.setup = self._store_args
 
     def _get_commit_datetime(self, commit=None):
         """Get commit date, if None - use current commit"""
@@ -55,14 +58,11 @@ class GitParser(object):
     def _get_commits_with_versions(self, commits):
         """Get commits with versions"""
         versions = []
-        setup = None
         for commit in commits:
             with Revision(commit, self._path) as revision:
                 sys.path.insert(0, revision.destination)
-                if setup is None:
-                    setup = __import__('setup')
-                else:
-                    reload(setup)
+                with ImportScope():
+                    __import__('setup')
             if not self._data['version'] in versions:
                 versions.append(self._data['version'])
                 yield commit, self._data['version']

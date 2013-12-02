@@ -1,3 +1,4 @@
+from datetime import datetime
 import subprocess
 import os
 import setuptools
@@ -20,6 +21,23 @@ class GitParser(object):
         """Patch setuptools"""
         setuptools.setup = self._store_args
 
+    def _get_commit_datetime(self, commit=None):
+        """Get commit date, if None - use current commit"""
+        git_args = ['log', '-1', '--format=%ct']
+        if commit is not None:
+            git_args.append(commit)
+        timestamp = self._git(*git_args).readline()
+        return datetime.fromtimestamp(float(timestamp[:-1]))
+
+    def _set_current_commit_date(self):
+        """Set current commit date"""
+        self._current = self._get_commit_datetime()
+
+    def _is_before_current(self, commit):
+        """Is commit before current"""
+        commit_date = self._get_commit_datetime(commit)
+        return commit_date <= self._current
+
     def _store_args(self, *args, **kwargs):
         """Store arguments to setup"""
         self._data = kwargs
@@ -27,7 +45,10 @@ class GitParser(object):
     def _get_revisions_with_changes(self):
         """Get revisions with changes"""
         out = self._git('log', '--pretty=format:%h', 'setup.py')
-        return [line[:-1] for line in out.readlines()][::-1]
+        return [
+            line[:-1] for line in out.readlines()
+            if self._is_before_current(line[:-1])
+        ][::-1]
 
     def _get_setup_py_content(self, commit):
         """get setup.py content in commit"""
@@ -83,6 +104,7 @@ class GitParser(object):
     def parse(self, path):
         """Create changelog from git"""
         self._set_path(path)
+        self._set_current_commit_date()
         self._patch_setuptools()
         changes = self._get_revisions_with_changes()
         version_pairs = self._get_commits_with_versions(changes)

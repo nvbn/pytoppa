@@ -52,7 +52,13 @@ class GitParser(object):
 
     def _get_setup_py_content(self, commit):
         """get setup.py content in commit"""
-        return self._git('show', '{}:setup.py'.format(commit)).read()
+        return '''from mock import MagicMock
+open = MagicMock()
+open.read.return_value = ''
+open.readline.return_value = ''
+open.readlines.return_value = []
+{}
+'''.format(self._git('show', '{}:setup.py'.format(commit)).read())
 
     def _get_commits_with_versions(self, commits):
         """Get commits with versions"""

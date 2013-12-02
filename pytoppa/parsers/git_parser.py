@@ -47,9 +47,15 @@ class GitParser(object):
         """Store arguments to setup"""
         self._data = kwargs
 
-    def _get_revisions_with_changes(self):
-        """Get revisions with changes"""
-        out = self._git('log', '--pretty=format:%h', 'setup.py')
+    def _get_revisions_with_setup_py(self):
+        """Get revisions with setup.py"""
+        from_revision = self._git('log', '--pretty=format:%h', 'setup.py')\
+            .readlines()[-1][:-1]
+        to_revision = self._git('log', '--pretty=format:%h', '-n', '1')\
+            .readline()[:-1]
+        out = self._git('log', '--pretty=format:%h', '{}..{}'.format(
+            from_revision, to_revision,
+        ))
         return [
             line[:-1] for line in out.readlines()
             if self._is_before_current(line[:-1])
@@ -105,6 +111,6 @@ class GitParser(object):
         self._set_path(path)
         self._set_current_commit_date()
         self._patch_setuptools()
-        changes = self._get_revisions_with_changes()
+        changes = self._get_revisions_with_setup_py()
         version_pairs = self._get_commits_with_versions(changes)
         return list(self._create_change_logs(version_pairs))

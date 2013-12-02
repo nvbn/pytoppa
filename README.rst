@@ -32,6 +32,8 @@ In general it looks like:
 Examples:
 
 - `pytoppa <https://github.com/nvbn/pytoppa/blob/develop/.pytoppa.yml>`_
+- `series_list <https://github.com/nvbn/series_list/blob/develop/.pytoppa.yml>`_
+- `subliminal <https://github.com/nvbn/subliminal/blob/packaging/.pytoppa.yml>`_
 
 Usage
 -----

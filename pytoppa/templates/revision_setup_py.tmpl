@@ -1,0 +1,16 @@
+from mock import MagicMock
+_open = open
+
+
+def open(*args, **kwargs):
+    try:
+        return _open(*args, **kwargs)
+    except:
+        result = MagicMock()
+        result.read.return_value = ''
+        result.readline.return_value = ''
+        result.readlines.return_value = []
+        return result
+
+
+{{ content }}

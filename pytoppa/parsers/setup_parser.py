@@ -26,5 +26,6 @@ class SetupParser(object):
         self._check_exists(path, file_name)
         self._patch_setuptools()
         sys.path.insert(0, path)
-        __import__(file_name[:-3])
+        setup = __import__(file_name[:-3])
+        reload(setup)
         return self._data

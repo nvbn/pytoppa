@@ -2,6 +2,8 @@ from datetime import datetime
 import subprocess
 import os
 import setuptools
+import sys
+from ..helpers.revision import Revision
 from .exceptions import ParsingError
 
 
@@ -50,26 +52,17 @@ class GitParser(object):
             if self._is_before_current(line[:-1])
         ][::-1]
 
-    def _get_setup_py_content(self, commit):
-        """get setup.py content in commit"""
-        return '''from mock import MagicMock
-open = MagicMock()
-open.read.return_value = ''
-open.readline.return_value = ''
-open.readlines.return_value = []
-{}
-'''.format(self._git('show', '{}:setup.py'.format(commit)).read())
-
     def _get_commits_with_versions(self, commits):
         """Get commits with versions"""
         versions = []
+        setup = None
         for commit in commits:
-            try:
-                exec self._get_setup_py_content(commit)
-            except Exception as e:
-                print e
-                continue
-
+            with Revision(commit, self._path) as revision:
+                sys.path.insert(0, revision.destination)
+                if setup is None:
+                    setup = __import__('setup')
+                else:
+                    reload(setup)
             if not self._data['version'] in versions:
                 versions.append(self._data['version'])
                 yield commit, self._data['version']

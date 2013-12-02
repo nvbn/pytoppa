@@ -1,6 +1,7 @@
 dependencies:
   - python-yaml
   - python-jinja2
+  - python-mock
   - dh-make
   - devscripts
   - cdbs

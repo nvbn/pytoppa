@@ -44,4 +44,4 @@ class PackageData(BaseHelper):
 
     def __exit__(self, *args, **kwargs):
         """Clean package data"""
-        shutil.rmtree(self._path)
+        shutil.rmtree(self.destination)

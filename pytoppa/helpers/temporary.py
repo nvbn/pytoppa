@@ -41,7 +41,10 @@ class TemporaryDirectory(BaseHelper):
     def __enter__(self):
         """Create temporary directory"""
         os.makedirs(self._path)
-        shutil.copytree(self._project_path, self.destination)
+        shutil.copytree(
+            self._project_path, self.destination,
+            ignore=shutil.ignore_patterns('*.pyc'),
+        )
         self._create_setup_py()
         return self
 

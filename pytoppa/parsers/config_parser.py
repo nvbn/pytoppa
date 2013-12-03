@@ -23,6 +23,7 @@ class ConfigParser(object):
             data['section'] = 'python'
         if not 'dependencies' in data:
             data['dependencies'] = []
+        data['build_dependencies'] = data.get('build-dependencies', [])
         return data
 
     def _validate(self, data):

@@ -23,8 +23,11 @@ In general it looks like:
 
 .. code-block:: yaml
 
-    section: python  # by default
-    dependencies:
+    name: package-name  # optional, by default from setup.py
+    section: python  # optional, by default python
+    build-dependencies:  # optional
+      - one-of-build-deps
+    dependencies:  # optional
       - one-of-deps
     releases:
       - one-of-releases

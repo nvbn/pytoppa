@@ -2,11 +2,11 @@ Source: {{ name }}
 Section: {{ section }}
 Priority: optional
 Maintainer: {{ author }} <{{ author_email }}>
-Build-Depends: cdbs (>= 0.4.49), debhelper (>= 7) {% if build_dependencies %},{% endif %} {% for dep in build_dependencies %}{{ dep }}{% if not loop.last %}, {% endif %}{% endfor %}
-Standards-Version: 0.1
+Build-Depends: cdbs (>= 0.4.49), debhelper (>= 7), python, dh-python {% if build_dependencies %},{% endif %} {% for dep in build_dependencies %}{{ dep }}{% if not loop.last %}, {% endif %}{% endfor %}
+Standards-Version: 3.9.7
 Homepage: {{ url }}
 
 Package: {{ name }}
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-support, python-setuptools{% if dependencies %},{% endif %} {% for dep in dependencies %}{{ dep }}{% if not loop.last %}, {% endif %}{% endfor %}
+Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends} {% if dependencies %},{% endif %} {% for dep in dependencies %}{{ dep }}{% if not loop.last %}, {% endif %}{% endfor %}
 Description: {{ description }}

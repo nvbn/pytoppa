@@ -5,6 +5,9 @@ dependencies:
   - dh-make
   - devscripts
   - cdbs
+build_dependencies:
+  - python3
+  - python3-setuptools
 releases:
   - xenial
   - wily

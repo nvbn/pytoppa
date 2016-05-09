@@ -4,8 +4,6 @@ Python package to ppa
 .. image:: https://travis-ci.org/nvbn/pytoppa.png?branch=develop 
     :target: https://travis-ci.org/nvbn/pytoppa
 
-.. image:: https://coviolations.io/projects/nvbn/pytoppa/badge/? 
-    :target: https://coviolations.io/#/projects/nvbn/pytoppa/
 
 Upload python packages to your ppa with easy yml config.
 
@@ -55,16 +53,6 @@ For example:
 
 Installation
 ------------
-
-In ubuntu:
-
-.. code-block:: bash
-
-    sudo add-apt-repository ppa:nvbn-rm/ppa
-    sudo apt-get update
-    sudo apt-get install pytoppa
-
-In other:
 
 .. code-block:: bash
 

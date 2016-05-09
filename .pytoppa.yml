@@ -1,13 +1,11 @@
 dependencies:
-  - python-yaml
-  - python-jinja2
-  - python-mock
+  - python3
+  - python3-yaml
+  - python3-jinja2
   - dh-make
   - devscripts
   - cdbs
 releases:
-  - saucy
-  - precise
-  - quantal
-  - raring
+  - xenial
+  - wily
   - trusty

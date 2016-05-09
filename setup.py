@@ -1,9 +1,8 @@
 from setuptools import setup, find_packages
 
-
 setup(
     name='pytoppa',
-    version='15.0.1',
+    version='15.0.2',
     description="Easy to use publisher of python packages to ppa",
     long_description="""\
 """,
@@ -22,9 +21,6 @@ setup(
     install_requires=[
         'PyYAML',
         'Jinja2',
-        'nose',
-        'mock',
-        'sure',
     ],
     entry_points={
         'gui_scripts': [

@@ -4,6 +4,7 @@ import subprocess
 import os
 import setuptools
 import sys
+from importlib import import_module
 from ..helpers.revision import Revision
 from ..helpers.import_scope import ImportScope
 from .exceptions import ParsingError
@@ -16,8 +17,7 @@ class GitParser(object):
         """Get output of call to git"""
         proc = subprocess.Popen(
             ['git'] + list(args), stdout=subprocess.PIPE,
-            cwd=self._path,
-        )
+            cwd=self._path)
         proc.wait()
         return proc.stdout
 
@@ -31,7 +31,7 @@ class GitParser(object):
         git_args = ['log', '-1', '--format=%ct']
         if commit is not None:
             git_args.append(commit)
-        timestamp = self._git(*git_args).readline()
+        timestamp = self._git(*git_args).readline().decode()
         return datetime.fromtimestamp(float(timestamp[:-1]))
 
     def _set_current_commit_date(self):
@@ -49,17 +49,14 @@ class GitParser(object):
 
     def _get_revisions_with_setup_py(self):
         """Get revisions with setup.py"""
-        from_revision = self._git('log', '--pretty=format:%h', 'setup.py')\
-            .readlines()[-1][:-1]
-        to_revision = self._git('log', '--pretty=format:%h', '-n', '1')\
-            .readline()[:-1]
+        from_revision = self._git('log', '--pretty=format:%h', 'setup.py') \
+                            .readlines()[-1][:-1].decode()
+        to_revision = self._git('log', '--pretty=format:%h', '-n', '1') \
+                          .readline()[:-1].decode()
         out = self._git('log', '--pretty=format:%h', '{}..{}'.format(
-            from_revision, to_revision,
-        ))
-        return [
-            line[:-1] for line in out.readlines()
-            if self._is_before_current(line[:-1])
-        ][::-1]
+            from_revision, to_revision, ))
+        return [line[:-1].decode() for line in out.readlines()
+                if self._is_before_current(line[:-1])][::-1]
 
     def _get_commits_with_versions(self, commits):
         """Get commits with versions"""
@@ -67,11 +64,12 @@ class GitParser(object):
         for commit in commits:
             with Revision(commit, self._path) as revision:
                 sys.path.insert(0, revision.destination)
+                sys.modules.pop('setup', None)
                 with ImportScope():
                     try:
-                        __import__('setup')
+                        import_module('setup')
                     except Exception as e:
-                        print e
+                        print(e)
                         continue
             if not self._data['version'] in versions:
                 versions.append(self._data['version'])
@@ -81,26 +79,22 @@ class GitParser(object):
         """Get changes in commit range"""
         out = self._git(
             'log', '--pretty=format:%s',
-            '{}...{}'.format(start, end) if start else end,
-        )
+            '{}...{}'.format(start, end) if start else end)
         return [
-            line.replace('\n', '').replace('\r', '').decode('utf8')
-            for line in out.readlines()
-        ]
+            line.decode().replace('\n', '').replace('\r', '')
+            for line in out.readlines()]
 
     def _get_commit_date(self, commit):
         """Get commit date"""
-        return self._git('log', '--pretty=format:%cd', '--date=rfc', commit)\
-            .readlines()[0]
+        return self._git('log', '--pretty=format:%cd', '--date=rfc', commit) \
+            .readline().decode()
 
     def _create_change_logs(self, pairs):
         """Create change logs"""
         last = None
         for commit, version in pairs:
-            yield (
-                version, self._get_commit_range_changes(commit, last),
-                self._get_commit_date(commit),
-            )
+            yield (version, self._get_commit_range_changes(commit, last),
+                   self._get_commit_date(commit))
             last = commit
 
     def _set_path(self, path):

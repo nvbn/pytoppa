@@ -34,7 +34,7 @@ class PackageData(BaseHelper):
         template = self._env.get_template('{}.tmpl'.format(path))
         full_path = os.path.join(self.destination, path)
         with open(full_path, 'w') as out:
-            out.write(template.render(**self._context.dict).encode('utf8'))
+            out.write(template.render(**self._context.dict))
 
     def __enter__(self):
         """Create debian package data"""

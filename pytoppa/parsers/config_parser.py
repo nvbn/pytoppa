@@ -19,9 +19,9 @@ class ConfigParser(object):
 
     def _fill_defaults(self, data):
         """Fill default values to config"""
-        if not 'section' in data:
+        if 'section' not in data:
             data['section'] = 'python'
-        if not 'dependencies' in data:
+        if 'dependencies' not in data:
             data['dependencies'] = []
         data['build_dependencies'] = data.get('build-dependencies', [])
         return data
@@ -30,7 +30,7 @@ class ConfigParser(object):
         """Validate config"""
         if type(data['dependencies']) is not list:
             raise ParsingError('dependencies should be list')
-        if not 'releases' in data:
+        if 'releases' not in data:
             raise ParsingError('releases should be filled')
         if type(data['releases']) is not list:
             raise ParsingError('releases should be list')

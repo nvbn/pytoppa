@@ -10,14 +10,14 @@ from .utils import create_tarball, build, push
 def _get_arguments():
     """Get arguments"""
     parser = argparse.ArgumentParser(description='py-to-ppa')
-    parser.add_argument('key', type=unicode)
-    parser.add_argument('ppa', type=unicode)
+    parser.add_argument('key', type=str)
+    parser.add_argument('ppa', type=str)
     return parser.parse_args()
 
 
 def main():
     args = _get_arguments()
-    path = os.getcwdu()
+    path = os.getcwd()
     context = GlobalContext(path)
     with TemporaryDirectory(path, context) as temp:
         create_tarball(temp.destination, context)
